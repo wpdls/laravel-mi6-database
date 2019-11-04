@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class App extends React.Component {
+export default class PersonList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,20 +15,28 @@ export default class App extends React.Component {
         fetch('/api/person', {
             headers: {
                 'Accept':       'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.props.token,
+                'Content-Type': 'application/json'
             }
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            this.setState({
+                people: data
+            })
         });
     }
 
     render() {
         return (
-            <h1>Person list</h1>
-            
+            <>
+                <h1>Person list</h1>
+                
+                {
+                    this.state.people.map(person => {
+                        <div className="person">{ person.name }</div>
+                    })
+                }
+            </>
         )
     }
 }
